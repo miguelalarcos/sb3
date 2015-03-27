@@ -1,5 +1,17 @@
 #!/usr/bin/env node
-var spawn = require('child_process').spawn;
+//var spawn = require('child_process').spawn;
+
+(function() {
+  var childProcess = require("child_process");
+  oldSpawn = childProcess.spawn;
+  function mySpawn() {
+    console.log('spawn called');
+    console.log(arguments);
+    var result = oldSpawn.apply(this, arguments);
+    return result;
+  }
+  childProcess.spawn = mySpawn;
+})();
 
 var workingDir = process.env.WORKING_DIR || process.env.PACKAGE_DIR || './';
 var args = ['test-packages', '--once', '--driver-package', 'test-in-console', '-p', 10015];
