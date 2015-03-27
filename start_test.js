@@ -19,17 +19,19 @@ else if (process.env.PACKAGES !== '') {
   args = args.concat(process.env.PACKAGES.split(';'));
 }
 console.log('(1)');
-console.log((process.env.TEST_COMMAND || 'meteor'));
+console.log((process.env.TEST_COMMAND || 'meteor'), args);
 var meteor = spawn((process.env.TEST_COMMAND || 'meteor'), args, {cwd: workingDir});
 console.log('(2)');
 meteor.stdout.pipe(process.stdout);
 meteor.stderr.pipe(process.stderr);
+console.log('(2b)');
 meteor.on('close', function (code) {
   console.log('meteor exited with code ' + code);
   process.exit(code);
 });
 
 meteor.stdout.on('data', function startTesting(data) {
+  console.log('(2c)');
   var data = data.toString();
   if(data.match(/10015|test-in-console listening/)) {
     console.log('starting testing...');
@@ -39,7 +41,7 @@ meteor.stdout.on('data', function startTesting(data) {
 });
 
 function runTestSuite() {
-  process.env.URL = "http://localhost:10015/"
+  process.env.URL = "http://localhost:10015/";
 console.log('(3)');
   var phantomjs = spawn('phantomjs', ['./phantom_runner.js']);
 console.log('(4)');
