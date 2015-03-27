@@ -17,6 +17,6 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('mig:sb3');
+  //api.use('mig:sb3');
   api.addFiles('sb3-tests.js');
 });
