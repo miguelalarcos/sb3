@@ -53,3 +53,4 @@ console.log('(4)');
     process.exit(code);
   });
 }
+console.log('(5)');
